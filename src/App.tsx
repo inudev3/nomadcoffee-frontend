@@ -1,33 +1,42 @@
-import React from 'react';
-import {BrowserRouter, Route, Router, Switch} from "react-router-dom";
-import {useReactiveVar} from "@apollo/client";
-import {darkModeVar, isLoggedInVar} from "./apollo";
+import React from "react";
+import { BrowserRouter, Route, Router, Switch } from "react-router-dom";
+import { useReactiveVar, ApolloProvider } from "@apollo/client";
+import { client, darkModeVar, isLoggedInVar } from "./apollo";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
 import Notfound from "./screens/Notfound";
-import {ThemeProvider} from "styled-components";
-import {darkTheme, lightTheme, GlobalStyles} from "./styles";
-
-
-
+import { ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme, GlobalStyles } from "./styles";
+import SignUp from "./screens/SignUp";
+import routes from "./routes";
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
-    const isLoggedIn = useReactiveVar(isLoggedInVar);
-    const darkMode = useReactiveVar(darkModeVar);
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const darkMode = useReactiveVar(darkModeVar);
   return (
-        <ThemeProvider theme={darkMode? darkTheme:lightTheme}>
-            <GlobalStyles/>
-        <BrowserRouter>
+    <ApolloProvider client={client}>
+      <HelmetProvider>
+        <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+          <GlobalStyles />
+          <BrowserRouter>
             <Switch>
-                <Route path="/" exact>
-                    {isLoggedIn? <Home/>:<Login/>}
+              <Route path={routes.home} exact>
+                {isLoggedIn ? <Home /> : <Login />}
+              </Route>
+              {!isLoggedIn ? (
+                <Route path={routes.signUp}>
+                  <SignUp />
                 </Route>
-                <Route>
-                    <Notfound/>
-                </Route>
+              ) : null}
+              <Route>
+                <Notfound />
+              </Route>
             </Switch>
-        </BrowserRouter>
+          </BrowserRouter>
         </ThemeProvider>
+      </HelmetProvider>
+    </ApolloProvider>
   );
 }
 
