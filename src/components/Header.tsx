@@ -1,10 +1,10 @@
 import useUser from "../hooks/useUser";
 import { useReactiveVar } from "@apollo/client";
-import { isLoggedInVar } from "../apollo";
+import { isLoggedInVar, logUserOut } from "../apollo";
 import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Avatar from "./Avatar";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import routes from "../routes";
 
@@ -42,6 +42,7 @@ const Button = styled.span`
 `;
 
 export default function Header() {
+  const history = useHistory();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const { data } = useUser();
   return (
@@ -53,13 +54,17 @@ export default function Header() {
         <Column>
           {isLoggedIn ? (
             <>
-              <HeaderMenu>Add a Shop</HeaderMenu>
+              <HeaderMenu>
+                <Link to={`/add`}>Add a Shop</Link>
+              </HeaderMenu>
               <HeaderMenu>
                 <Link to={`/users/${data?.me?.username}`}>
                   <Avatar url={data?.me?.avatarURL} />
                 </Link>
               </HeaderMenu>
-              <HeaderMenu>Logout</HeaderMenu>
+              <HeaderMenu onClick={() => logUserOut(history)}>
+                Logout
+              </HeaderMenu>
             </>
           ) : (
             <Link to={routes.home}>

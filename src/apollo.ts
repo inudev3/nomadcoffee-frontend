@@ -26,6 +26,9 @@ export const disableDarkMode = () => {
 };
 
 export const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri:
+    process.env.NODE_ENV === "production"
+      ? "https://nomadcoffee-backend-by-inust33.herokuapp.com"
+      : "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
 });

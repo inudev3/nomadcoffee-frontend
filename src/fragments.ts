@@ -10,7 +10,7 @@ export const COFFEESHOP_FRAGMENT = gql`
       username
       avatarURL
     }
-    photos(page: 1) {
+    photos {
       id
       url
       shop {

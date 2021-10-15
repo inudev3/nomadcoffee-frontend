@@ -38,16 +38,18 @@ function App() {
                   <SignUp />
                 </Route>
               ) : null}
-              <Route>
-                <Notfound />
-              </Route>
               <Route path={`/add`}>
                 <Layout>
                   <AddShop />
                 </Layout>
               </Route>
               <Route path={`/shop/:id`}>
-                <ShopProfile />
+                <Layout>
+                  <ShopProfile />
+                </Layout>
+              </Route>
+              <Route>
+                <Notfound />
               </Route>
             </Switch>
           </BrowserRouter>

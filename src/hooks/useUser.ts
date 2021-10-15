@@ -1,4 +1,4 @@
-import { useQuery, useReactiveVar } from "@apollo/client";
+import { gql, useQuery, useReactiveVar } from "@apollo/client";
 import { isLoggedInVar, logUserOut } from "../apollo";
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
