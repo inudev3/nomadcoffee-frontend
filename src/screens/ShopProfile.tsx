@@ -25,6 +25,7 @@ const EDIT_COFFEESHOP_MUTATION = gql`
     $name: String
     $latitude: String
     $longitude: String
+    $photos: [Upload]
     $categories: [String]
   ) {
     editCoffeeShop(
